@@ -46,6 +46,8 @@ namespace Supermarket_back.Models
                     .WithMany(p => p.Articles)
                     .HasForeignKey(d => d.CatId)
                     .HasConstraintName("FK_Articles_Categories");
+
+                entity.Property(e => e.ImgURL).IsUnicode(false);
             });
 
             modelBuilder.Entity<Category>(entity =>

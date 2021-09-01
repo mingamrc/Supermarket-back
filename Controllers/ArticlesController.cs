@@ -36,6 +36,38 @@ namespace Supermarket_back.Controllers
             return await query.OrderBy(x => x.Name).ToListAsync();
         }
 
+
+        //public async Task<ActionResult<IEnumerable<Article>>> GetArticle(string name = "")
+        //{
+        //    var article = from art in _context.Articles
+        //                  select new ArticleDetailDTO()
+        //                  {
+        //                      Id = art.Id,
+        //                      Name = art.Name
+        //                  };
+        //    if (article == null)
+        //    {
+        //        return Ok(article);
+        //    }
+
+        //    return Ok(article);
+        //}
+
+        //public IQueryable<ArticleDTO> GetArticleDTOs()
+        //{
+        //    var article = from art in _context.Articles
+        //                  select new ArticleDTO()
+        //                  {
+        //                      Id = art.Id,
+        //                      Name = art.Name
+        //                  };
+
+        //    return article;
+        //}
+
+
+
+
         // GET: api/Articles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> GetArticle(int id)
@@ -49,6 +81,26 @@ namespace Supermarket_back.Controllers
 
             return article;
         }
+
+        //public async Task<ActionResult<ArticleDetailDTO>> GetArticle(int id)
+        //{
+        //    var article = await _context.Articles.Include(art => art.Cat).Select(art =>
+        //        new ArticleDetailDTO()
+        //        {
+        //            Id = art.Id,
+        //            Name = art.Name,
+        //            Code = art.Code,
+        //            Price = art.Price,
+        //            Expiration = art.Expiration,
+        //            CatId = art.CatId
+        //        }).SingleOrDefaultAsync(art => art.Id == id);
+        //    if (article == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(article);
+        //}
 
         // PUT: api/Articles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
