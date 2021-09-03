@@ -24,7 +24,7 @@ namespace Supermarket_back.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.OrderBy(x => x.Category1).ToListAsync();
         }
 
         // GET: api/Categories/5

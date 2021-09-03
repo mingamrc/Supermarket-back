@@ -138,8 +138,20 @@ namespace Supermarket_back.Controllers
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(Article article)
         {
+            Console.WriteLine("prove");
+            Console.WriteLine(String.IsNullOrEmpty(article.Expiration.ToString()));
+            Console.WriteLine(article.Expiration.ToString());
+
             if (article.Code.ToString().Length == 8 && (article.Name.Any(char.IsDigit) == false))
             {
+                //if (String.IsNullOrEmpty(article.Expiration.ToString()) || article.Expiration.ToString().Equals(""))
+                //{
+                //    article.Expiration = null;
+                //}
+                if (String.IsNullOrEmpty(article.ImgURL))
+                {
+                    article.ImgURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
+                }
                 _context.Articles.Add(article);
                 await _context.SaveChangesAsync();
 
