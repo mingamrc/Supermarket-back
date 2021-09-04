@@ -59,7 +59,9 @@ namespace Supermarket_back.Controllers
         //                  select new ArticleDTO()
         //                  {
         //                      Id = art.Id,
-        //                      Name = art.Name
+        //                      Name = art.Name,
+        //                      Price = art.Price,
+        //                      ImgURL = art.ImgURL
         //                  };
 
         //    return article;
@@ -70,37 +72,39 @@ namespace Supermarket_back.Controllers
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Article>> GetArticle(int id)
-        {
-            var article = await _context.Articles.FindAsync(id);
-
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            return article;
-        }
-
-        //public async Task<ActionResult<ArticleDetailDTO>> GetArticle(int id)
+        //public async Task<ActionResult<Article>> GetArticle(int id)
         //{
-        //    var article = await _context.Articles.Include(art => art.Cat).Select(art =>
-        //        new ArticleDetailDTO()
-        //        {
-        //            Id = art.Id,
-        //            Name = art.Name,
-        //            Code = art.Code,
-        //            Price = art.Price,
-        //            Expiration = art.Expiration,
-        //            CatId = art.CatId
-        //        }).SingleOrDefaultAsync(art => art.Id == id);
+        //    var article = await _context.Articles.FindAsync(id);
+
         //    if (article == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return Ok(article);
+        //    return article;
         //}
+
+        public async Task<ActionResult<ArticleDetailDTO>> GetArticle(int id)
+        {
+            var article = await _context.Articles.Include(art => art.Cat).Select(art =>
+                new ArticleDetailDTO()
+                {
+                    Id = art.Id,
+                    Name = art.Name,
+                    Code = art.Code,
+                    Price = art.Price,
+                    Expiration = art.Expiration,
+                    CatId = art.CatId,
+                    ImgURL = art.ImgURL
+
+                }).SingleOrDefaultAsync(art => art.Id == id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(article);
+        }
 
         // PUT: api/Articles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -138,10 +142,7 @@ namespace Supermarket_back.Controllers
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(Article article)
         {
-            Console.WriteLine("prove");
-            Console.WriteLine(String.IsNullOrEmpty(article.Expiration.ToString()));
-            Console.WriteLine(article.Expiration.ToString());
-
+            
             if (article.Code.ToString().Length == 8 && (article.Name.Any(char.IsDigit) == false))
             {
                 //if (String.IsNullOrEmpty(article.Expiration.ToString()) || article.Expiration.ToString().Equals(""))

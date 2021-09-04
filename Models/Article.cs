@@ -21,6 +21,8 @@ namespace Supermarket_back.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public double Price { get; set; }
+        public string ImgURL { get; set; }
     }
 
     public partial class ArticleDetailDTO
@@ -31,6 +33,7 @@ namespace Supermarket_back.Models
         public double Price { get; set; }
         public DateTime? Expiration { get; set; }
         public int CatId { get; set; }
+        public string ImgURL { get; set; }
 
     }
 }
