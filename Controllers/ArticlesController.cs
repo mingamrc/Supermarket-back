@@ -50,6 +50,10 @@ namespace Supermarket_back.Controllers
             else if (priceMin == -1 && priceMax > 0)
             {
                 query = query.Where<Article>(x => x.Price >= priceMin && x.Price <= priceMax);
+            } 
+            else if  (priceMax < priceMin)
+            {
+                return NotFound();
             }
 
             return await query.OrderBy(x => x.Name).ToListAsync();
@@ -146,10 +150,6 @@ namespace Supermarket_back.Controllers
             
             if (article.Code.ToString().Length == 8 && (article.Name.Any(char.IsDigit) == false))
             {
-                //if (String.IsNullOrEmpty(article.Expiration.ToString()) || article.Expiration.ToString().Equals(""))
-                //{
-                //    article.Expiration = null;
-                //}
                 if (String.IsNullOrEmpty(article.ImgURL))
                 {
                     article.ImgURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
