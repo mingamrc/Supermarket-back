@@ -22,8 +22,7 @@ namespace Supermarket_back.Controllers
 
         // GET: api/Articles
         [HttpGet]
-        //Funzione Get senza DTO con ricerca
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(string name = "", int catId = -1, float priceMin = -1, float priceMax = -1)
+        public IQueryable<ArticleDTO> GetArticles(string name = "", int catId = -1, float priceMin = -1, float priceMax = -1)
         {
             IQueryable<Article> query = _context.Articles.AsQueryable();
 
@@ -50,29 +49,24 @@ namespace Supermarket_back.Controllers
             else if (priceMin == -1 && priceMax > 0)
             {
                 query = query.Where<Article>(x => x.Price >= priceMin && x.Price <= priceMax);
-            } 
-            else if  (priceMax < priceMin)
+            }
+            else if (priceMax < priceMin)
             {
-                return NotFound();
+                return null;
             }
 
-            return await query.OrderBy(x => x.Name).ToListAsync();
+            var article = from art in query
+                          select new ArticleDTO()
+                          {
+                              Id = art.Id,
+                              Name = art.Name,
+                              Price = art.Price,
+                              ImgURL = art.ImgURL
+                          };
+
+            return article.OrderBy(x => x.Name);
         }
 
-        //Funzione Get con DTO
-        //public IQueryable<ArticleDTO> GetArticleDTOs(string name = "")
-        //{
-        //    var article = from art in _context.Articles
-        //                  select new ArticleDTO()
-        //                  {
-        //                      Id = art.Id,
-        //                      Name = art.Name,
-        //                      Price = art.Price,
-        //                      ImgURL = art.ImgURL
-        //                  };
-
-        //    return article.OrderBy(x => x.Name);
-        //}
 
 
         // GET: api/Articles/5
