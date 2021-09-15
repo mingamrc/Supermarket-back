@@ -22,7 +22,7 @@ namespace Supermarket_back.Controllers
 
         // GET: api/Articles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(string name = "")
+        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(string name = "", int catId = -1)
         {
             IQueryable<Article> query = _context.Articles.AsQueryable();
 
@@ -33,25 +33,15 @@ namespace Supermarket_back.Controllers
                 );
             }
 
+
+            if(catId != -1)
+            {
+                query = query.Where<Article>(x => x.CatId == catId);
+            }
+
+
             return await query.OrderBy(x => x.Name).ToListAsync();
         }
-
-
-        //public async Task<ActionResult<IEnumerable<Article>>> GetArticle(string name = "")
-        //{
-        //    var article = from art in _context.Articles
-        //                  select new ArticleDetailDTO()
-        //                  {
-        //                      Id = art.Id,
-        //                      Name = art.Name
-        //                  };
-        //    if (article == null)
-        //    {
-        //        return Ok(article);
-        //    }
-
-        //    return Ok(article);
-        //}
 
         //public IQueryable<ArticleDTO> GetArticleDTOs()
         //{
@@ -72,18 +62,6 @@ namespace Supermarket_back.Controllers
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
-        //public async Task<ActionResult<Article>> GetArticle(int id)
-        //{
-        //    var article = await _context.Articles.FindAsync(id);
-
-        //    if (article == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return article;
-        //}
-
         public async Task<ActionResult<ArticleDetailDTO>> GetArticle(int id)
         {
             var article = await _context.Articles.Include(art => art.Cat).Select(art =>
@@ -106,8 +84,20 @@ namespace Supermarket_back.Controllers
             return Ok(article);
         }
 
+        //public async Task<ActionResult<Article>> GetArticle(int id)
+        //{
+        //    var article = await _context.Articles.FindAsync(id);
+
+        //    if (article == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return article;
+        //}
+
+
         // PUT: api/Articles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArticle(int id, Article article)
         {
@@ -138,7 +128,6 @@ namespace Supermarket_back.Controllers
         }
 
         // POST: api/Articles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(Article article)
         {
