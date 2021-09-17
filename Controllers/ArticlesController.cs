@@ -38,15 +38,15 @@ namespace Supermarket_back.Controllers
                 query = query.Where<Article>(x => x.CatId == catId);
             }
 
-            if (priceMin > 0 && priceMax == -1)
+            if (priceMin >= 0 && priceMax == -1)
             {
                 query = query.Where<Article>(x => x.Price >= priceMin);
             } 
-            else if (priceMin > 0 && priceMax >= priceMin)
+            else if (priceMin >= 0 && priceMax >= priceMin)
             {
                 query = query.Where<Article>(x => x.Price >= priceMin && x.Price <= priceMax);
             }
-            else if (priceMin == -1 && priceMax > 0)
+            else if (priceMin == -1 && priceMax >= 0)
             {
                 query = query.Where<Article>(x => x.Price >= priceMin && x.Price <= priceMax);
             }
