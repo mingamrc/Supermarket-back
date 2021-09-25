@@ -1,9 +1,11 @@
 USE [master]
 GO
+
 ALTER DATABASE [Supermarket] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 
 DROP DATABASE [Supermarket]
-/****** Object:  Database [Supermarket]    Script Date: 01/09/2021 16:49:42 ******/
+
+/****** Object:  Database [Supermarket]    Script Date: 25/09/2021 10:11:29 ******/
 CREATE DATABASE [Supermarket]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -85,7 +87,7 @@ ALTER DATABASE [Supermarket] SET QUERY_STORE = OFF
 GO
 USE [Supermarket]
 GO
-/****** Object:  Table [dbo].[Articles]    Script Date: 01/09/2021 16:49:44 ******/
+/****** Object:  Table [dbo].[Articles]    Script Date: 25/09/2021 10:11:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,14 +99,14 @@ CREATE TABLE [dbo].[Articles](
 	[Price] [float] NOT NULL,
 	[Expiration] [date] NULL,
 	[CatID] [int] NOT NULL,
-	[ImgURL] [varchar](max) NULL DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+	[ImgURL] [varchar](max) NULL,
  CONSTRAINT [PK_Articles] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Categories]    Script Date: 01/09/2021 16:49:44 ******/
+/****** Object:  Table [dbo].[Categories]    Script Date: 25/09/2021 10:11:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -118,6 +120,26 @@ CREATE TABLE [dbo].[Categories](
 	[CatID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 25/09/2021 10:11:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[Username] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+	[Admin] [int] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Articles] ADD  DEFAULT ('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png') FOR [ImgURL]
 GO
 ALTER TABLE [dbo].[Articles]  WITH CHECK ADD  CONSTRAINT [FK_Articles_Categories] FOREIGN KEY([CatID])
 REFERENCES [dbo].[Categories] ([CatID])
@@ -143,7 +165,7 @@ VALUES
 
 INSERT INTO 
 	[dbo].[Articles] (name, code, price, expiration, CatID, ImgURL)
-values  
+VALUES
 	('Meloni', 19638527, 2.34, '10/10/2021', 1, 'https://www.fruttaweb.com/consigli/wp-content/uploads/2017/10/melone_proprieta_benefici.jpg'),
 	('Prosciutto', 54387628, 1.99, '5/10/2021', 2, 'https://www.ilprosciuttocrudo.it/998-thickbox_default/prosciutto-cotto-italiano-lo-storico-nazionale-105-kg-buoni-cotti-pertus.jpg'),
 	('Latte', 87654321, 0.99, '3/9/2021', 3, 'https://uploads.nonsprecare.it/wp-content/uploads/2017/03/benefici-latte-2.jpg'),
@@ -156,5 +178,16 @@ values
 	('Calamari', 88876665, 6.44, '1/11/2021', 5, 'https://www.cucchiaio.it/content/cucchiaio/it/ricette/2019/06/calamari-al-sugo/_jcr_content/header-par/image-single.img10.jpg/1559662038755.jpg'),
 	('Gormiti', 54112349, 9.55, '7/12/2021', 3, 'https://sites.google.com/site/preziosicollectionit/_/rsrc/1365166081672/nuovi-gormiti-3d/5127_42_MediaCenterZoom_.jpg')
 
+
+INSERT INTO
+	[dbo].[Users] (Name, Email, Username, Password, Admin)
+VALUES
+	('admin', 'admin@admin.it', 'admin', 'admin', 1),
+	('Mario', 'mario@tiscali.it', 'mario', 'mario', 0),
+	('Anselmo', 'anselmo99@libero.it', 'anselmo', 'anselmo', 0),
+	('Plinio', 'plinio@gmail.com', 'plinio', 'plinio', 0),
+	('Giovanna', 'giovanna@hotmail.it', 'giovanna', 'giovanna', 0)
+
 SELECT * FROM Categories
 SELECT * FROM Articles
+SELECT * FROM Users
