@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Supermarket_back.Models;
 
 #nullable disable
 
@@ -68,5 +69,7 @@ namespace Supermarket_back.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<Supermarket_back.Models.Users> Users { get; set; }
     }
 }

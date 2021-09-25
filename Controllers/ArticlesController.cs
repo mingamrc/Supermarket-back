@@ -32,7 +32,7 @@ namespace Supermarket_back.Controllers
                     x.Name.ToLower().Contains(name.ToLower())
                 );
             }
-
+            
             if (catId >= 0)
             {
                 query = query.Where<Article>(x => x.CatId == catId);
