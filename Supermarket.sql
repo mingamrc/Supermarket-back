@@ -99,7 +99,7 @@ CREATE TABLE [dbo].[Articles](
 	[Price] [float] NOT NULL,
 	[Expiration] [date] NULL,
 	[CatID] [int] NOT NULL,
-	[ImgURL] [varchar](max) NULL  DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png',
+	[ImgURL] [varchar](max) NULL,
  CONSTRAINT [PK_Articles] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -157,9 +157,9 @@ GO
 INSERT INTO 
 	[dbo].[Categories] (category, description)
 VALUES
-	('Frutta', 'tutto ciÚ che ha i semi'),
-	('Carne', 'Tutto ciÚ che mangi dagli animali'),
-	('Latticini', 'Latte di prima qualit‡ appena munto'),
+	('Frutta', 'tutto ci√≤ che ha i semi'),
+	('Carne', 'Tutto ci√≤ che mangi dagli animali'),
+	('Latticini', 'Latte di prima qualit√† appena munto'),
 	('Giocattoli', 'Divertimento per tutti'),
 	('Pescheria', 'Pesce fresco pesce vivo')
 
