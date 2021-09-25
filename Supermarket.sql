@@ -99,7 +99,7 @@ CREATE TABLE [dbo].[Articles](
 	[Price] [float] NOT NULL,
 	[Expiration] [date] NULL,
 	[CatID] [int] NOT NULL,
-	[ImgURL] [varchar](max) NULL,
+	[ImgURL] [varchar](max) NULL  DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png',
  CONSTRAINT [PK_Articles] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
